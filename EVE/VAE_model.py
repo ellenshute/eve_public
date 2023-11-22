@@ -29,7 +29,7 @@ class VAE_model(nn.Module):
         super().__init__()
         
         self.model_name = model_name
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cpu")
         self.dtype = torch.float32
         self.random_seed = random_seed
         torch.manual_seed(random_seed)
