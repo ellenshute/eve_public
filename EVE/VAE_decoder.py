@@ -24,7 +24,7 @@ class VAE_Bayesian_MLP_decoder(nn.Module):
         - bayesian_decoder: (Bool) Whether the decoder is bayesian or not
         """
         super().__init__()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cpu")
         self.seq_len = params['seq_len']
         self.alphabet_size = params['alphabet_size']
         self.hidden_layers_sizes = params['hidden_layers_sizes']
@@ -189,7 +189,7 @@ class VAE_Standard_MLP_decoder(nn.Module):
         - bayesian_decoder: (Bool) Whether the decoder is bayesian or not
         """
         super().__init__()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cpu")
         self.seq_len = params['seq_len']
         self.alphabet_size = params['alphabet_size']
         self.hidden_layers_sizes = params['hidden_layers_sizes']
