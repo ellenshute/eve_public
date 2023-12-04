@@ -7,7 +7,7 @@ export model_parameters_location='./EVE/default_model_params.json'
 export training_logs_location='./logs/'
 export protein_index=0
 
-export computation_mode='all_singles'
+export computation_mode='msa_indices'
 export all_singles_mutations_folder='./data/mutations'
 export output_evol_indices_location='./results/evol_indices'
 export num_samples_compute_evol_indices=20000

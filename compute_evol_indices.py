@@ -52,6 +52,9 @@ if __name__=='__main__':
     if args.computation_mode=="all_singles":
         data.save_all_singles(output_filename=args.all_singles_mutations_folder + os.sep + protein_name + "_all_singles.csv")
         args.mutations_location = args.all_singles_mutations_folder + os.sep + protein_name + "_all_singles.csv"
+    if args.computation_mode=="msa_indices":
+        data.save_msa_mutations(output_filename=args.all_singles_mutations_folder + os.sep + protein_name + "_msa_indices.csv")
+        args.mutations_location = args.all_singles_mutations_folder + os.sep + protein_name + "_msa_indices.csv"
     else:
         args.mutations_location = args.mutations_location + os.sep + protein_name + ".csv"
         

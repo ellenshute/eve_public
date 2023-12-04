@@ -50,6 +50,7 @@ class MSA_processing:
 
         self.gen_alignment()
         self.create_all_singles()
+        self.msa_mutations_dataframe()
 
     def gen_alignment(self):
         """ Read training alignment and store basics in class instance """
@@ -170,6 +171,36 @@ class MSA_processing:
 
         print ("Neff =",str(self.Neff))
         print ("Data Shape =",self.one_hot_encoding.shape)
+
+    def msa_mutations_dataframe(self):
+        mutations_dict = {}
+        start_idx = self.focus_start_loc
+        alphabet_set = set(list(self.alphabet))
+
+        for seq_name, sequence in self.seq_name_to_sequence.items():
+            focus_seq_index = 0
+            mutations_per_sequence = []
+            
+            for i, letter in enumerate(sequence):
+                if letter in alphabet_set and letter != "-":
+                    pos = start_idx + i
+                    if letter != self.focus_seq[i]:
+                        mutant = self.focus_seq[i] + str(pos) + letter
+                        # Check for lower case letters in the mutant before appending
+                        if not any(char.islower() for char in mutant):
+                            mutations_per_sequence.append(mutant)
+
+                    focus_seq_index += 1
+
+            mutations_dict[seq_name] = ":".join(mutations_per_sequence)
+
+        # Convert mutations dictionary to a DataFrame without sequence names
+        mutations_df = pd.DataFrame(list(mutations_dict.values()), columns=['mutations'])
+        return mutations_df
+    
+    def save_msa_mutations(self, output_filename):
+        mutations_df = self.msa_mutations_dataframe()
+        mutations_df.to_csv(output_filename, index=False, header=True)
     
     def create_all_singles(self):
         start_idx = self.focus_start_loc
