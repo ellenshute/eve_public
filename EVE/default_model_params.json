@@ -1,6 +1,6 @@
 {   "encoder_parameters": {
         "hidden_layers_sizes"         :   [2000,1000,300],
-        "z_dim"                               :   2,
+        "z_dim"                               :   50,
         "convolve_input"                      :   false,
         "convolution_input_depth"             :   40,
         "nonlinear_activation"                :   "relu",
@@ -8,7 +8,7 @@
     },
     "decoder_parameters": {
         "hidden_layers_sizes"         :   [300,1000,2000],
-        "z_dim"                               :   2,
+        "z_dim"                               :   50,
         "bayesian_decoder"                    :   true,
         "first_hidden_nonlinearity"           :   "relu", 
         "last_hidden_nonlinearity"            :   "relu", 
