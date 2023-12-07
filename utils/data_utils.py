@@ -11,6 +11,7 @@ class MSA_processing:
         theta=0.2,
         use_weights=True,
         weights_location="./data/weights",
+        one_hot_location="./data/MSA",
         preprocess_MSA=True,
         threshold_sequence_frac_gaps=0.5,
         threshold_focus_cols_frac_gaps=0.3,
@@ -40,6 +41,7 @@ class MSA_processing:
         np.random.seed(2021)
         self.MSA_location = MSA_location
         self.weights_location = weights_location
+        self.one_hot_location = one_hot_location
         self.theta = theta
         self.alphabet = "ACDEFGHIKLMNPQRSTVWY"
         self.use_weights = use_weights
@@ -142,6 +144,7 @@ class MSA_processing:
                 if letter in self.aa_dict: 
                     k = self.aa_dict[letter]
                     self.one_hot_encoding[i,j,k] = 1.0
+                    np.save(file=self.one_hot_location, arr=self.one_hot_encoding)
 
         if self.use_weights:
             try:
