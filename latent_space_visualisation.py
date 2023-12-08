@@ -3,13 +3,14 @@ import json
 import argparse
 import pandas as pd
 import torch
+import matplotlib.pyplot as plt
 
 from EVE import VAE_model
 from utils import data_utils
 
 if __name__=='__main__':
 
-    parser = argparse.ArgumentParser(description='Evol indices')
+    parser = argparse.ArgumentParser(description='Latent space')
     parser.add_argument('--MSA_data_folder', type=str, help='Folder where MSAs are stored')
     parser.add_argument('--MSA_list', type=str, help='List of proteins and corresponding MSA file name')
     parser.add_argument('--protein_index', type=int, help='Row index of protein in input mapping file')
@@ -19,9 +20,7 @@ if __name__=='__main__':
     parser.add_argument('--VAE_checkpoint_location', type=str, help='Location where VAE model checkpoints will be stored')
     parser.add_argument('--model_name_suffix', default='Jan1', type=str, help='model checkpoint name is the protein name followed by this suffix')
     parser.add_argument('--model_parameters_location', type=str, help='Location of VAE model parameters')
-    parser.add_argument('--computation_mode', type=str, help='Computes evol indices for all single AA mutations or for a passed in list of mutations (singles or multiples) [all_singles,input_mutations_list]')
-    parser.add_argument('--output_evol_indices_location', type=str, help='Output location of computed evol indices')
-    parser.add_argument('--output_evol_indices_filename_suffix', default='', type=str, help='(Optional) Suffix to be added to output filename')
+    parser.add_argument('--output_latent_space_location', type=str, help='Output location of latent space variables')
     parser.add_argument('--num_samples_latent_space', type=int, help='Num of samples for latent space')
     parser.add_argument('--batch_size', default=256, type=int, help='Batch size when computing sampling latent space')
     args = parser.parse_args()
@@ -45,7 +44,7 @@ if __name__=='__main__':
             MSA_location=msa_location,
             theta=theta,
             use_weights=True,
-            one_hot_location=args.one_hot_location + os.sep + protein_name + '_binary_.npy',
+            one_hot_location=args.one_hot_location + os.sep + protein_name + '_binary.npy',
             weights_location=args.MSA_weights_location + os.sep + protein_name + '_theta_' + str(theta) + '.npy'
     )
 
@@ -73,7 +72,7 @@ if __name__=='__main__':
         sys.exit(0)
 
 
-    mu, sigma, p, evol_indices = model.latent_space(msa_data=data, 
+    latent_variables, mu_array, log_var_array = model.latent_space(msa_data=data, 
                                         num_samples=args.num_samples_latent_space,
                                         batch_size=args.batch_size)
     
@@ -88,49 +87,23 @@ if __name__=='__main__':
         # Add more columns as needed for the dimensions of z, mu, and log_var
     })
 
-
-    evol_indices_output_filename = args.output_evol_indices_location+os.sep+protein_name+'_'+str(args.num_samples_compute_evol_indices)+'_samples'+args.output_evol_indices_filename_suffix+'.csv'
+    latent_space_output_filename = args.output_latent_space_location+os.sep+protein_name+'_latent_space.csv'
     try:
-        keep_header = os.stat(evol_indices_output_filename).st_size == 0
+        keep_header = os.stat(latent_space_output_filename).st_size == 0
     except:
         keep_header=True 
-    df.to_csv(path_or_buf=evol_indices_output_filename, index=False, mode='a', header=keep_header)
+    df.to_csv(path_or_buf=latent_space_output_filename, index=False, mode='a', header=keep_header)
 
-#To be integrated into VAE_model.py
+    # Create a scatter plot
+    plt.figure(0)
+    plt.scatter(mu_array[:,0], mu_array[:,1], alpha=0.5)
+    plt.xlim((-6,6))
+    plt.ylim((-6,6))
+    plt.xlabel("$Z_1$")
+    plt.ylabel("$Z_2$")
+    plt.tight_layout()
+    plt.grid(True)
 
-def latent_space(self, msa_data, num_samples, batch_size=256):
 
-    one_hot_sequences = msa_data.one_hot_location
-
-    one_hot_sequences_tensor = torch.tensor(one_hot_sequences)
-    dataloader = torch.utils.data.DataLoader(one_hot_sequences_tensor, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
-
-    latent_variables = []  # List to store latent variables (z)
-    mu_list = []  # List to store means (mu)
-    log_var_list = []  # List to store log variances (log_var)
-
-    with torch.no_grad():
-        for i, batch in enumerate(dataloader):
-            x = batch.type(self.dtype).to(self.device)
-            batch_latent_samples = []  
-            batch_mu = [] 
-            batch_log_var = []  
-
-            for _ in range(num_samples):
-                mu, log_var = self.encoder(x)  
-                z = self.sample_latent(mu, log_var)  
-                batch_latent_samples.append(z.cpu().numpy()) 
-                batch_mu.append(mu.cpu().numpy())  
-                batch_log_var.append(log_var.cpu().numpy())  
-
-            latent_variables.extend(batch_latent_samples)  
-            mu_list.extend(batch_mu) 
-            log_var_list.extend(batch_log_var)  
-
-    latent_variables = np.array(latent_variables)  
-    mu_array = np.array(mu_list)  
-    log_var_array = np.array(log_var_list)  
-
-    return latent_variables, mu_array, log_var_array
-
-    
+    # Save or show the plot
+    plt.savefig('./results/mu_scatter_plot.png')  

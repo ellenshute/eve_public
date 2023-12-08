@@ -340,3 +340,38 @@ class VAE_model(nn.Module):
             evol_indices =  - delta_elbos.detach().cpu().numpy()
 
         return list_valid_mutations, evol_indices, mean_predictions[0].detach().cpu().numpy(), std_predictions.detach().cpu().numpy()
+    
+    def latent_space(self, msa_data, num_samples, batch_size=256):
+
+        one_hot_sequences = msa_data.one_hot_location
+
+        one_hot_sequences_tensor = torch.tensor(one_hot_sequences)
+        dataloader = torch.utils.data.DataLoader(one_hot_sequences_tensor, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
+
+        latent_variables = []  # List to store latent variables (z)
+        mu_list = []  # List to store means (mu)
+        log_var_list = []  # List to store log variances (log_var)
+
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                x = batch.type(self.dtype).to(self.device)
+                batch_latent_samples = []  
+                batch_mu = [] 
+                batch_log_var = []  
+
+                for _ in range(num_samples):
+                    mu, log_var = self.encoder(x)  
+                    z = self.sample_latent(mu, log_var)  
+                    batch_latent_samples.append(z.cpu().numpy()) 
+                    batch_mu.append(mu.cpu().numpy())  
+                    batch_log_var.append(log_var.cpu().numpy())  
+
+                latent_variables.extend(batch_latent_samples)  
+                mu_list.extend(batch_mu) 
+                log_var_list.extend(batch_log_var)  
+
+        latent_variables = np.array(latent_variables)  
+        mu_array = np.array(mu_list)  
+        log_var_array = np.array(log_var_list)  
+
+        return latent_variables, mu_array, log_var_array
