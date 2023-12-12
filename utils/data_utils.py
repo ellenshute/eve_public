@@ -144,7 +144,7 @@ class MSA_processing:
                 if letter in self.aa_dict: 
                     k = self.aa_dict[letter]
                     self.one_hot_encoding[i,j,k] = 1.0
-                    np.save(file=self.one_hot_location, arr=self.one_hot_encoding)
+        np.save(file=self.one_hot_location, arr=self.one_hot_encoding)
 
         if self.use_weights:
             try:

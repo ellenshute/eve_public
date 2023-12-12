@@ -71,10 +71,11 @@ if __name__=='__main__':
         print("Unable to locate VAE model checkpoint")
         sys.exit(0)
 
-
+    print("Encoding latent data")
     latent_variables, mu_array, log_var_array = model.latent_space(msa_data=data, 
                                         num_samples=args.num_samples_latent_space,
                                         batch_size=args.batch_size)
+    print("Latent data recorded")
     
     # Create a DataFrame with columns for z, mu, and log_var
     df = pd.DataFrame({
