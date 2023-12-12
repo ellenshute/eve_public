@@ -343,7 +343,7 @@ class VAE_model(nn.Module):
     
     def latent_space(self, msa_data, num_samples, batch_size=256):
 
-        one_hot_sequences = msa_data.one_hot_location
+        one_hot_sequences = np.load(msa_data.one_hot_location)
 
         one_hot_sequences_tensor = torch.tensor(one_hot_sequences).to(self.device)
         dataloader = torch.utils.data.DataLoader(one_hot_sequences_tensor, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
