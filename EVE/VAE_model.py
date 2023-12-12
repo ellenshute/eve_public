@@ -353,18 +353,19 @@ class VAE_model(nn.Module):
         log_var_list = []  # List to store log variances (log_var)
 
         with torch.no_grad():
-            for i, batch in enumerate(dataloader):
+            for i, batch in enumerate(tqdm.tqdm(dataloader, 'Looping through batches')):
                 x = batch.type(self.dtype).to(self.device)
                 batch_latent_samples = []  
                 batch_mu = [] 
                 batch_log_var = []  
 
-                for _ in range(num_samples):
+                for j in tqdm.tqdm(range(num_samples), 'Looping through number of samples for batch #: '+str(i+1)):
                     mu, log_var = self.encoder(x)  
                     z = self.sample_latent(mu, log_var)  
                     batch_latent_samples.append(z) 
                     batch_mu.append(mu)  
-                    batch_log_var.append(log_var)  
+                    batch_log_var.append(log_var) 
+                tqdm.tqdm.write('\n') 
 
                 latent_variables.extend(batch_latent_samples)  
                 mu_list.extend(batch_mu) 
