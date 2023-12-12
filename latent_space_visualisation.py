@@ -64,6 +64,7 @@ if __name__=='__main__':
 
     try:
         checkpoint_name = str(args.VAE_checkpoint_location) + os.sep + model_name + "_final"
+        print("Checkpoint name: '{}'".format(checkpoint_name))
         checkpoint = torch.load(checkpoint_name)
         model.load_state_dict(checkpoint['model_state_dict'])
         print("Initialized VAE with checkpoint '{}' ".format(checkpoint_name))
