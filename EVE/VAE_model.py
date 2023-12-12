@@ -345,7 +345,7 @@ class VAE_model(nn.Module):
 
         one_hot_sequences = msa_data.one_hot_location
 
-        one_hot_sequences_tensor = torch.tensor(one_hot_sequences)
+        one_hot_sequences_tensor = torch.tensor(one_hot_sequences).to(self.device)
         dataloader = torch.utils.data.DataLoader(one_hot_sequences_tensor, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
 
         latent_variables = []  # List to store latent variables (z)
@@ -362,16 +362,21 @@ class VAE_model(nn.Module):
                 for _ in range(num_samples):
                     mu, log_var = self.encoder(x)  
                     z = self.sample_latent(mu, log_var)  
-                    batch_latent_samples.append(z.cpu().numpy()) 
-                    batch_mu.append(mu.cpu().numpy())  
-                    batch_log_var.append(log_var.cpu().numpy())  
+                    batch_latent_samples.append(z) 
+                    batch_mu.append(mu)  
+                    batch_log_var.append(log_var)  
 
                 latent_variables.extend(batch_latent_samples)  
                 mu_list.extend(batch_mu) 
                 log_var_list.extend(batch_log_var)  
 
-        latent_variables = np.array(latent_variables)  
-        mu_array = np.array(mu_list)  
-        log_var_array = np.array(log_var_list)  
+        # Stack torch tensors directly
+        latent_variables_tensor = torch.stack(latent_variables)
+        mu_array_tensor = torch.stack(mu_list)
+        log_var_array_tensor = torch.stack(log_var_list)
+
+        latent_variables = latent_variables_tensor.cpu().numpy() 
+        mu_array = mu_array_tensor.cpu().numpy()
+        log_var_array = log_var_array_tensor.cpu().numpy()
 
         return latent_variables, mu_array, log_var_array
