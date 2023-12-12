@@ -48,8 +48,10 @@ if __name__=='__main__':
             weights_location=args.MSA_weights_location + os.sep + protein_name + '_theta_' + str(theta) + '.npy'
     )
 
+    one_hot_location=args.one_hot_location + os.sep + protein_name + '_binary.npy'
     model_name = protein_name + "_" + args.model_name_suffix
     print("Model name: "+str(model_name))
+    print("Binary location: "+str(one_hot_location))
 
     model_params = json.load(open(args.model_parameters_location))
 
