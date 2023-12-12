@@ -8,7 +8,6 @@ export model_parameters_location='./EVE/default_model_params.json'
 export training_logs_location='./logs/'
 export protein_index=0
 
-export all_singles_mutations_folder='./data/mutations'
 export output_latent_space_location='./results/evol_indices'
 export num_samples_latent_space=20000
 export batch_size=2048
@@ -22,7 +21,6 @@ python latent_space_visualisation.py \
     --VAE_checkpoint_location ${VAE_checkpoint_location} \
     --model_name_suffix ${model_name_suffix} \
     --model_parameters_location ${model_parameters_location} \
-    --all_singles_mutations_folder ${all_singles_mutations_folder} \
     --output_latent_space_location ${output_latent_space_location} \
-    --num_samples_compute_evol_indices ${num_samples_latent_space} \
+    --num_samples_latent_space ${num_samples_latent_space} \
     --batch_size ${batch_size}
