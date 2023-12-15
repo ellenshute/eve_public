@@ -365,6 +365,10 @@ class VAE_model(nn.Module):
                     batch_latent_samples.append(z) 
                     batch_mu.append(mu)  
                     batch_log_var.append(log_var) 
+                
+                # Check the sizes of tensors in batch_latent_samples for debugging
+                sizes = [tensor.size() for tensor in batch_latent_samples]
+                print(f"Iteration {i}, Tensor sizes: {sizes}")
                 tqdm.tqdm.write('\n') 
 
                 latent_variables.extend(batch_latent_samples)  
