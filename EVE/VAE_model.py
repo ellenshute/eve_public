@@ -345,7 +345,7 @@ class VAE_model(nn.Module):
 
         one_hot_sequences = np.load(msa_data.one_hot_location)
 
-        one_hot_sequences_tensor = torch.tensor(one_hot_sequences).to(self.device)
+        one_hot_sequences_tensor = torch.tensor(one_hot_sequences)
         dataloader = torch.utils.data.DataLoader(one_hot_sequences_tensor, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
 
         latent_variables = []  # List to store latent variables (z)
