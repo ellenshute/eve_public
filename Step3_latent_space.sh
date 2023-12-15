@@ -9,7 +9,7 @@ export training_logs_location='./logs/'
 export protein_index=0
 
 export output_latent_space_location='./results/evol_indices'
-export num_samples_latent_space=20000
+export num_samples_latent_space=20480
 export batch_size=2048
 
 python latent_space_visualisation.py \
