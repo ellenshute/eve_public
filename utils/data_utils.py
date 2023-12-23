@@ -88,6 +88,7 @@ class MSA_processing:
             # Identify fragments with too many gaps
             seq_gaps_frac = gaps_array.mean(axis=1)
             seq_below_threshold = seq_gaps_frac <= self.threshold_sequence_frac_gaps
+            print(seq_below_threshold.sum())
             print("Proportion of sequences dropped due to fraction of gaps: "+str(round(float(1 - seq_below_threshold.sum()/seq_below_threshold.shape)*100,2))+"%")
             # Identify focus columns
             columns_gaps_frac = gaps_array[seq_below_threshold].mean(axis=0)
@@ -100,8 +101,6 @@ class MSA_processing:
             self.seq_name_to_sequence = defaultdict(str)
             for seq_idx in range(len(msa_df['sequence'])):
                 self.seq_name_to_sequence[msa_df.index[seq_idx]] = msa_df.sequence[seq_idx]
-        
-        print(msa_df.shape)
 
         self.focus_seq = self.seq_name_to_sequence[self.focus_seq_name]
         self.focus_cols = [ix for ix, s in enumerate(self.focus_seq) if s == s.upper() and s!='-'] 
