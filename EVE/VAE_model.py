@@ -376,6 +376,10 @@ class VAE_model(nn.Module):
         mu_array_tensor = torch.stack(mu_list)
         log_var_array_tensor = torch.stack(log_var_list)
 
+        print(latent_variables_tensor.shape)
+        print(mu_array_tensor.shape)
+        print(log_var_array_tensor.shape)
+
         latent_variables = latent_variables_tensor.cpu().numpy() 
         mu_array = mu_array_tensor.cpu().numpy()
         log_var_array = log_var_array_tensor.cpu().numpy()
