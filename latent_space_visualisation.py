@@ -99,9 +99,9 @@ if __name__=='__main__':
 
     # Create a scatter plot
     plt.figure(0)
-    plt.scatter(latent_variables[:,0], latent_variables[:,1], alpha=0.5, s=10)
-    plt.xlim((-2,2))
-    plt.ylim((-2,2))
+    plt.scatter(latent_variables[:,0], latent_variables[:,1], alpha=0.5, s=8)
+    plt.xlim((-1.5,1.5))
+    plt.ylim((-1.5,1.5))
     plt.xlabel("$Z_1$")
     plt.ylabel("$Z_2$")
     plt.tight_layout()
