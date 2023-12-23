@@ -380,8 +380,13 @@ class VAE_model(nn.Module):
         print(mu_array_tensor.shape)
         print(log_var_array_tensor.shape)
 
-        latent_variables = latent_variables_tensor.cpu().numpy() 
-        mu_array = mu_array_tensor.cpu().numpy()
-        log_var_array = log_var_array_tensor.cpu().numpy()
+        # After obtaining the tensors but before converting them to NumPy arrays
+        latent_variables_reshaped = latent_variables_tensor.view(-1, 2).cpu().numpy()
+        mu_array_reshaped = mu_array_tensor.view(-1, 2).cpu().numpy()
+        log_var_array_reshaped = log_var_array_tensor.view(-1, 2).cpu().numpy()
 
-        return latent_variables, mu_array, log_var_array
+        print(latent_variables_reshaped.shape)
+        print(mu_array_reshaped.shape)
+        print(log_var_array_reshaped.shape)
+
+        return latent_variables_reshaped, mu_array_reshaped, log_var_array_reshaped
