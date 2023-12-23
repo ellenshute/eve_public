@@ -99,7 +99,7 @@ if __name__=='__main__':
 
     # Create a scatter plot
     plt.figure(0)
-    plt.scatter(mu_array[:,0], mu_array[:,1], alpha=0.5)
+    plt.scatter(latent_variables[:,0], latent_variables[:,1], alpha=0.5, s=10)
     plt.xlim((-2,2))
     plt.ylim((-2,2))
     plt.xlabel("$Z_1$")
