@@ -66,9 +66,7 @@ if __name__=='__main__':
 
     try:
         checkpoint_name = str(args.VAE_checkpoint_location) + os.sep + model_name + "_final"
-        print("Checkpoint path: '{}'".format(checkpoint_name))
         checkpoint = torch.load(checkpoint_name)
-        print("Loaded checkpoint")
         model.load_state_dict(checkpoint['model_state_dict'])
         print("Initialized VAE with checkpoint '{}' ".format(checkpoint_name))
     except:
@@ -90,7 +88,7 @@ if __name__=='__main__':
         'log_var_dim_1': log_var_array[:, 0],  
         'log_var_dim_2': log_var_array[:, 1],  
         # Add more columns as needed for the dimensions of z, mu, and log_var
-    }, index=range(len(latent_variables)))
+    })
 
     latent_space_output_filename = args.output_latent_space_location+os.sep+protein_name+'_latent_space.csv'
     try:
@@ -102,8 +100,8 @@ if __name__=='__main__':
     # Create a scatter plot
     plt.figure(0)
     plt.scatter(mu_array[:,0], mu_array[:,1], alpha=0.5)
-    plt.xlim((-6,6))
-    plt.ylim((-6,6))
+    plt.xlim((-2,2))
+    plt.ylim((-2,2))
     plt.xlabel("$Z_1$")
     plt.ylabel("$Z_2$")
     plt.tight_layout()

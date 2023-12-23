@@ -376,10 +376,6 @@ class VAE_model(nn.Module):
         mu_array_tensor = torch.stack(mu_list)
         log_var_array_tensor = torch.stack(log_var_list)
 
-        print(latent_variables_tensor.shape)
-        print(mu_array_tensor.shape)
-        print(log_var_array_tensor.shape)
-
         # After obtaining the tensors but before converting them to NumPy arrays
         latent_variables_reshaped = latent_variables_tensor.view(-1, 2).cpu().numpy()
         mu_array_reshaped = mu_array_tensor.view(-1, 2).cpu().numpy()
