@@ -90,7 +90,7 @@ if __name__=='__main__':
         'log_var_dim_1': log_var_array[:, 0],  
         'log_var_dim_2': log_var_array[:, 1],  
         # Add more columns as needed for the dimensions of z, mu, and log_var
-    })
+    }, index=range(len(latent_variables)))
 
     latent_space_output_filename = args.output_latent_space_location+os.sep+protein_name+'_latent_space.csv'
     try:
