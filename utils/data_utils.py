@@ -139,7 +139,7 @@ class MSA_processing:
                 del self.seq_name_to_sequence[seq_name]
 
         # Open a CSV file in write mode
-        with open('seq_name_to_sequence.csv', 'w', newline='') as csvfile:
+        with open('./results/latent_variables/seq_name_to_sequence.csv', 'w', newline='') as csvfile:
             # Create a CSV writer object
             csvwriter = csv.writer(csvfile)
             csvwriter.writerow(['Uniprot ID'])
