@@ -8,7 +8,7 @@ export model_parameters_location='./EVE/default_model_params.json'
 export training_logs_location='./logs/'
 export protein_index=0
 
-export output_latent_space_location='./results/evol_indices'
+export output_latent_space_location='./results/latent_variables'
 export num_samples_latent_space=1
 export batch_size=1873
 
