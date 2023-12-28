@@ -4,7 +4,7 @@ from collections import defaultdict
 import os
 import torch
 import tqdm
-import json
+import csv
 
 class MSA_processing:
     def __init__(self,
@@ -137,6 +137,14 @@ class MSA_processing:
             seq_names_to_remove = list(set(seq_names_to_remove))
             for seq_name in seq_names_to_remove:
                 del self.seq_name_to_sequence[seq_name]
+
+        # Open a CSV file in write mode
+        with open('seq_name_to_sequence.csv', 'w', newline='') as csvfile:
+        # Create a CSV writer object
+            csvwriter = csv.writer(csvfile)
+        # Write each key-value pair as a row in the CSV file
+        for key, value in self.seq_name_to_sequence.items():
+            csvwriter.writerow([key, value])
 
         # Encode the sequences
         print ("Encoding sequences")
