@@ -143,8 +143,8 @@ class MSA_processing:
         # Create a CSV writer object
             csvwriter = csv.writer(csvfile)
         # Write each key-value pair as a row in the CSV file
-        for key, value in self.seq_name_to_sequence.items():
-            csvwriter.writerow([key, value])
+            for key, value in self.seq_name_to_sequence.items():
+                csvwriter.writerow([key, value])
 
         # Encode the sequences
         print ("Encoding sequences")
