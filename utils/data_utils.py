@@ -140,11 +140,12 @@ class MSA_processing:
 
         # Open a CSV file in write mode
         with open('seq_name_to_sequence.csv', 'w', newline='') as csvfile:
-        # Create a CSV writer object
+            # Create a CSV writer object
             csvwriter = csv.writer(csvfile)
-        # Write each key-value pair as a row in the CSV file
-            for key, value in self.seq_name_to_sequence.items():
-                csvwriter.writerow([key, value])
+            csvwriter.writerow(['Uniprot ID'])
+            # Write each key-value pair as a row in the CSV file
+            for key in self.seq_name_to_sequence.keys():
+                csvwriter.writerow([key])
 
         # Encode the sequences
         print ("Encoding sequences")
@@ -156,14 +157,6 @@ class MSA_processing:
                     k = self.aa_dict[letter]
                     self.one_hot_encoding[i,j,k] = 1.0
         np.save(file=self.one_hot_location, arr=self.one_hot_encoding)
-
-        # Create a dictionary to map UniProt IDs to indices in one_hot_encoding
-        uni_prot_ids = list(self.seq_name_to_sequence.keys())
-        uni_prot_id_to_index = {id: idx for idx, id in enumerate(uni_prot_ids)}
-
-        # Generate an array to store corresponding one-hot encoded sequences for each UniProt ID
-        one_hot_encoded_seqs_by_id = {id: self.one_hot_encoding[uni_prot_id_to_index[id]] for id in uni_prot_ids}
-        np.save('one_hot_encoded_seqs_by_id.npy', one_hot_encoded_seqs_by_id)
 
         if self.use_weights:
             try:
