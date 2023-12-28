@@ -95,7 +95,9 @@ if __name__=='__main__':
         keep_header = os.stat(latent_space_output_filename).st_size == 0
     except:
         keep_header=True 
-    df.to_csv(path_or_buf=latent_space_output_filename, index=False, mode='a', header=keep_header)
+    df.to_csv(path_or_buf=latent_space_output_filename, index=False)
+
+    """
 
     # Create a scatter plot
     plt.figure(0)
@@ -110,3 +112,5 @@ if __name__=='__main__':
 
     # Save or show the plot
     plt.savefig('./results/mu_scatter_plot.png')  
+
+    """
