@@ -68,7 +68,7 @@ class MSA_processing:
                 line = line.rstrip()
                 if line.startswith(">"):
                     name = line
-                    accession_number = name.split('/')[0].split('_')[1] 
+                    accession_number = name.split('_')[1] 
                     self.seq_name_to_sequence[accession_number] = ""
                     if i==0:
                         self.focus_seq_name = name
