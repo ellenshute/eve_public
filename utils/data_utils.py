@@ -68,12 +68,10 @@ class MSA_processing:
                 line = line.rstrip()
                 if line.startswith(">"):
                     name = line
-                    accession_number = name.split('_')[1] 
-                    self.seq_name_to_sequence[accession_number] = ""
                     if i==0:
                         self.focus_seq_name = name
                 else:
-                    self.seq_name_to_sequence[accession_number] += line
+                    self.seq_name_to_sequence[name] += line
 
         
         ## MSA pre-processing to remove inadequate columns and sequences
@@ -104,10 +102,6 @@ class MSA_processing:
             self.seq_name_to_sequence = defaultdict(str)
             for seq_idx in range(len(msa_df['sequence'])):
                 self.seq_name_to_sequence[msa_df.index[seq_idx]] = msa_df.sequence[seq_idx]
-
-            # saving to check 
-            with open('seq_name_to_sequence.json', 'w') as file:
-                json.dump(self.seq_name_to_sequence, file)
             
 
         self.focus_seq = self.seq_name_to_sequence[self.focus_seq_name]
@@ -143,6 +137,10 @@ class MSA_processing:
             seq_names_to_remove = list(set(seq_names_to_remove))
             for seq_name in seq_names_to_remove:
                 del self.seq_name_to_sequence[seq_name]
+        
+        # saving to check 
+            with open('seq_name_to_sequence.json', 'w') as file:
+                json.dump(self.seq_name_to_sequence, file)
 
         # Encode the sequences
         print ("Encoding sequences")
