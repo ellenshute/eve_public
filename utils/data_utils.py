@@ -155,7 +155,7 @@ class MSA_processing:
 
         # Generate an array to store corresponding one-hot encoded sequences for each UniProt ID
         one_hot_encoded_seqs_by_id = {id: self.one_hot_encoding[uni_prot_id_to_index[id]] for id in uni_prot_ids}
-        np.save('/data/MSA/one_hot_encoded_seqs_by_id.npy', one_hot_encoded_seqs_by_id)
+        np.save('one_hot_encoded_seqs_by_id.npy', one_hot_encoded_seqs_by_id)
 
         if self.use_weights:
             try:
